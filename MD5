@@ -1,4 +1,4 @@
-38f8102ce6f2e778e9ebebf63002db01 *DESCRIPTION
+1ded4660663db31e435161e8bb896cf1 *DESCRIPTION
 bb428ee90becd397d311a1fef7eb2d49 *LICENSE
 17fdda78cb46e3c205ac3c8e3a7bcf9b *NAMESPACE
 321a431c493dc1cac548d2750c0f31b9 *R/ISR.R
@@ -8,10 +8,12 @@ e58f7d30bb38aceb28e73a3f90d3b2b8 *R/MMLPCA.R
 14bcbf926e668e7e0bc165f3f6308a43 *R/SR.R
 67937fc3a283560eabe8700de36bcd27 *R/mean.R
 b67e5a52719b2863055b18005fbd922d *data/CKD.rda
+a7393dbe74ce03b2d44b6f85a19a23e9 *data/HCV.rda
 a17affb9c2c29247512f3e6d17bcedb6 *data/orange.rda
-69f2c4f38a84760d25b28c34cf1c45f5 *data/ozone.rda
+f363bd121b7f5a9637d773bba3dce9c2 *data/ozone.rda
 01113240fa6746f191befea674c0a0dc *data/review.rda
 f0a14a35e7b6fe5c4543271ce900a558 *man/CKD.Rd
+23e7e5cc82b1061da00328ffd659dbe9 *man/HCV.Rd
 0435a476f5c91a363348858581a97b9b *man/ISR.Rd
 9fe8d977b7f2716c17c134d9b468545e *man/MMLPCA.Rd
 53a25c13a946bd9b89f32dcb49faece1 *man/MNIPALS.Rd
@@ -19,8 +21,8 @@ b82fa9b8f87cf6f9d2ceb7095f8d075a *man/MRPCA.Rd
 bae4d1384f702b792e76c7416ea9904b *man/SR.Rd
 870c0cf3fbdec7fe0676e544a5d2d6cc *man/mean.Rd
 924db8c95843c5644a1a029f04af43f5 *man/orange.Rd
-bf95c9d54edf842970fcf80438412e78 *man/ozone.Rd
+c9b6799dfc121a13705e3cd51c06d5fc *man/ozone.Rd
 801de142742795be3530dfe19d7f5fd5 *man/review.Rd
-2bc7b1c73390bc80a490ea8eae52dc62 *tests/testthat.R
+9f284d7ba10586b6180f4dad3790139c *tests/testthat.R
 8df0fd400967eb440735a36ba02ba46a *tests/testthat/test-ISR.R
 d34d57f82ae1e156fb594850d28fc2ff *tests/testthat/test-NAMESPACE.R

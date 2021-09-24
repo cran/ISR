@@ -1,7 +1,7 @@
 Package: ISR
 Title: The Iterated Score Regression-Based Estimation Algorithm
-Date: 2021-09-15
-Version: 2021.09.15
+Date: 2021-09-24
+Version: 2021.9.24
 Authors@R: c(person("Guangbao", "Guo",role = c("aut", "cre"),
            email = "ggb11111111@163.com",
           comment =  c(ORCID = "0000-0002-4115-6218")),
@@ -12,7 +12,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 7.1.1
 NeedsCompilation: no
-Packaged: 2021-09-15 09:05:00 UTC; 123
+Packaged: 2021-09-24 02:52:43 UTC; 123
 Author: Guangbao Guo [aut, cre] (<https://orcid.org/0000-0002-4115-6218>),
   Haoyue Song [aut],
   Lixing Zhu [aut]
@@ -22,4 +22,4 @@ Config/testthat/edition: 3
 Depends: R (>= 3.5.0)
 Imports: stats, MASS
 Repository: CRAN
-Date/Publication: 2021-09-15 10:20:02 UTC
+Date/Publication: 2021-09-24 04:40:02 UTC

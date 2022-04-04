@@ -4,28 +4,18 @@
 #' @param data0 is the missing data set
 #' @param real is to judge whether the data set is a real missing data set
 #' @param example is to judge whether the data set is a simulation example.
-
-
 #' 
 #' @return XMNIPALS, MSEMNIPALS, MAEMNIPALS, REMNIPALS, GCVMNIPALS,timeMNIPALS
 #' @export
 #'
-
 #' @examples 
 #'  library(MASS)   
-#'  etatol=0.9
 #'  n=100;p=10;per=0.1
-#'  mu=as.matrix(runif(p,0,10))
-#'  sigma=as.matrix(runif(p,0,1))
-#'  ro=as.matrix(c(runif(p,-1,1)))
-#'  RO=ro%*%t(ro);diag(RO)=1
-#'  Sigma=sigma%*%t(sigma)*RO
-#'  X0=data=mvrnorm(n,mu,Sigma)
+#'  X0=data=matrix(mvrnorm(n*p,0,1),n,p)
 #'  m=round(per*n*p,digits=0)
 #'  mr=sample(1:(n*p),m,replace=FALSE)
 #'  X0[mr]=NA;data0=X0
 #'  MNIPALS(data=data,data0=data0,real=FALSE,example=FALSE)
-
 
 #the MNIPALS method 
 MNIPALS=function(data=0,data0,real=TRUE,example=FALSE)
@@ -89,7 +79,17 @@ MNIPALS=function(data=0,data0,real=TRUE,example=FALSE)
           pina=0
         }#5
       }#4
-      XMNIPALS=Xnew=Z+matrix(1,n,p)%*%diag(cm0)
+      XMNIPALS=Xnew=Z+matrix(1,n,p)%*%diag(cm0)     
+      for (j in 1:p){
+         Mj=is.na(X0[,j])
+         iob=which(Mj==FALSE)
+         chj=sum(abs(round(X0[iob,j])-X0[iob,j]))
+         if (chj==0){
+          XMNIPALS[,j]=round(XMNIPALS[,j])
+        }else{
+          XMNIPALS[,j]= XMNIPALS[,j]
+        }
+      }
       lll=1
     }#3
   )#2

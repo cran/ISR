@@ -23,14 +23,8 @@ Caculate the estimator on the mean method
 }
 \examples{
  library(MASS)   
- etatol=0.9
  n=100;p=10;per=0.1
- mu=as.matrix(runif(p,0,10))
- sigma=as.matrix(runif(p,0,1))
- ro=as.matrix(c(runif(p,-1,1)))
- RO=ro\%*\%t(ro);diag(RO)=1
- Sigma=sigma\%*\%t(sigma)*RO
- X0=data=mvrnorm(n,mu,Sigma)
+ X0=data=matrix(mvrnorm(n*p,0,1),n,p)
  m=round(per*n*p,digits=0)
  mr=sample(1:(n*p),m,replace=FALSE)
  X0[mr]=NA;data0=X0

@@ -4,28 +4,18 @@
 #' @param data0 is the missing data set
 #' @param real is to judge whether the data set is a real missing data set
 #' @param example is to judge whether the data set is a simulation example.
-
-
 #' 
 #' @return XMMLPCA, MSEMMLPCA, MAEMMLPCA, REMMLPCA, GCVMMLPCA,timeMMLPCA
 #' @export 
 #'
-
 #' @examples 
 #'  library(MASS)   
-#'  etatol=0.9
 #'  n=100;p=10;per=0.1
-#'  mu=as.matrix(runif(p,0,10))
-#'  sigma=as.matrix(runif(p,0,1))
-#'  ro=as.matrix(c(runif(p,-1,1)))
-#'  RO=ro%*%t(ro);diag(RO)=1
-#'  Sigma=sigma%*%t(sigma)*RO
-#'  X0=data=mvrnorm(n,mu,Sigma)
+#'  X0=data=matrix(mvrnorm(n*p,0,1),n,p)
 #'  m=round(per*n*p,digits=0)
 #'  mr=sample(1:(n*p),m,replace=FALSE)
 #'  X0[mr]=NA;data0=X0
 #'  MMLPCA(data=data,data0=data0,real=FALSE,example=FALSE)
-
 
 ##the MMLPCA method 
 MMLPCA=function(data=0,data0,real=TRUE,example=FALSE)
@@ -126,7 +116,17 @@ MMLPCA=function(data=0,data0,real=TRUE,example=FALSE)
         S2=sum((data0[mr]-Zcol[mr])^2)
         SS=abs(S2-S1)/S2
       }#4
-      XMMLPCA=Xnew=Znew+matrix(rep(1,n*p),ncol=p)%*%diag(cm0)
+      XMMLPCA=Xnew=Znew+matrix(rep(1,n*p),ncol=p)%*%diag(cm0)     
+      for (j in 1:p){
+         Mj=is.na(X0[,j])
+         iob=which(Mj==FALSE)
+         chj=sum(abs(round(X0[iob,j])-X0[iob,j]))
+         if (chj==0){
+          XMMLPCA[,j]=round(XMMLPCA[,j])
+        }else{
+          XMMLPCA[,j]= XMMLPCA[,j]
+        }
+      }
       lll=1
     }#3
   )#2

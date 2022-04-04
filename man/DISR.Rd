@@ -1,0 +1,31 @@
+\name{DISR}
+\alias{DISR}
+\title{Distributed iterated score regression}
+\description{Caculate the estimator on the DISR method}
+\usage{
+DISR(data = 0, data0, real = TRUE, example = FALSE, D)
+}
+\arguments{
+  \item{data}{is the orignal data set}
+  \item{data0}{is the missing data set}
+  \item{real}{is to judge whether the data set is a real missing data set}
+  \item{example}{is to judge whether the data set is a simulation example}
+  \item{D}{is the number of nodes}
+}
+\value{
+ \item{XDISR}{is the estimator on the DISR method}
+  \item{MSEDISR}{is the MSE value of the DISR method}
+  \item{MAEDISR}{is the MAE value of the DISR method}
+  \item{REDISR}{is the RE value of the DISR method}
+  \item{GCVDISR}{is the GCV value of the DISR method}
+  \item{timeDISR}{is the time cost of the DISR method}
+}
+\examples{
+ library(MASS)   
+ n=100;p=10;per=0.1
+ X0=data=matrix(mvrnorm(n*p,0,1),n,p)
+ m=round(per*n*p,digits=0)
+ mr=sample(1:(n*p),m,replace=FALSE)
+ X0[mr]=NA;data0=X0
+ DISR(data=data,data0=data0,real=FALSE,example=FALSE,D=2)
+}

@@ -4,13 +4,19 @@
 #' @param data0 is the missing data set
 #' @param real is to judge whether the data set is a real missing data set
 #' @param example is to judge whether the data set is a simulation example
-#' 
-#' @return XMRPCA, MSEMRPCA, MAEMRPCA, REMRPCA, GCVMRPCA,timeMRPCA
-#' @export
 #'
-#' @examples 
-#'  library(MASS)   
-#'  library(MASS)   
+#' @return
+#' \item{XMRPCA}{is the estimator on the MRPCA method}
+#' \item{MSEMRPCA}{is the MSE value of the MRPCA method}
+#' \item{MAEMRPCA}{is the MAE value of the MRPCA method}
+#' \item{REMRPCA}{is the RE value of the MRPCA method}
+#' \item{GCVMRPCA}{is the GCV value of the MRPCA method}
+#' \item{timeMRPCA}{is the time cost of the MRPCA method}
+#' @export
+#' @importFrom stats cor
+#' @examples
+#'  library(MASS)
+#'  library(MASS)
 #'  n=100;p=10;per=0.1
 #'  X0=data=matrix(mvrnorm(n*p,0,1),n,p)
 #'  m=round(per*n*p,digits=0)
@@ -37,7 +43,7 @@ MRPCA=function(data=0,data0,real=TRUE,example=FALSE)
       cm0=colMeans(X0,na.rm=T)
       ina=as.matrix(mr%%n)
       jna=as.matrix(floor((mr+n-1)/n))
-      data0[is.na(data0)]=cm0[ceiling(which(is.na(X0))/n)]	
+      data0[is.na(data0)]=cm0[ceiling(which(is.na(X0))/n)]
       X=as.matrix(data0)
       Z=scale(X,center=TRUE,scale=FALSE)
       niter=0;d=1;tol=1e-5;nb=10
@@ -52,7 +58,7 @@ MRPCA=function(data=0,data0,real=TRUE,example=FALSE)
         upper.tri(J,diag=T);J[lower.tri(J)]=0
         eta=matrix(colSums(J),nrow = 1,ncol = p,byrow = FALSE)
         ww=which(eta>=etatol)
-        k=ww[1] 
+        k=ww[1]
         Lambda=svd(Z)$d
         A=svd(Z)$v
         B=svd(Z)$u
@@ -94,7 +100,7 @@ MRPCA=function(data=0,data0,real=TRUE,example=FALSE)
         ZMRPCA=Znew=Z
         d=sqrt(sum(diag((t(Zold-Znew)%*%(Zold-Znew)))))
       }#4
-      XMRPCA=Xnew=Znew+matrix(rep(1,n*p),ncol=p)%*%diag(cm0)    
+      XMRPCA=Xnew=Znew+matrix(rep(1,n*p),ncol=p)%*%diag(cm0)
       for (j in 1:p){
          Mj=is.na(X0[,j])
          iob=which(Mj==FALSE)
@@ -112,14 +118,14 @@ MRPCA=function(data=0,data0,real=TRUE,example=FALSE)
     MSEMRPCA= MAEMRPCA= REMRPCA='NULL'
   }else{#2
     MSEMRPCA=(1/m)*t(Xnew[mr]-data[mr])%*%(Xnew[mr]-data[mr])
-    MAEMRPCA=(1/m)*sum(abs(Xnew[mr]-data[mr]))	
+    MAEMRPCA=(1/m)*sum(abs(Xnew[mr]-data[mr]))
     REMRPCA=(sum(abs(data[mr]-Xnew[mr])))/(sum(data[mr]))
   }#2
   lambdaMRPCA=svd(cor(XMRPCA))$d
   lMRPCA=lambdaMRPCA/sum(lambdaMRPCA);J=rep(lMRPCA,times=p);dim(J)=c(p,p)
   upper.tri(J,diag=T);J[lower.tri(J)]=0;dim(J)=c(p,p)
   etaMRPCA=matrix(colSums(J),nrow = 1,ncol = p,byrow = FALSE)
-  wwMRPCA=which(etaMRPCA>=etatol);kMRPCA=wwMRPCA[1] 
+  wwMRPCA=which(etaMRPCA>=etatol);kMRPCA=wwMRPCA[1]
   lambdaMRPCApk=lambdaMRPCA[(kMRPCA+1):p]
   GCVMRPCA=sum(lambdaMRPCApk)*p/(p-kMRPCA)^2
 return(list(XMRPCA=XMRPCA,MSEMRPCA=MSEMRPCA,MAEMRPCA=MAEMRPCA,REMRPCA=REMRPCA,GCVMRPCA=GCVMRPCA,timeMRPCA=time))

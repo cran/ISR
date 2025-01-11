@@ -4,20 +4,25 @@
 #' @param data0 is the missing data set
 #' @param real is to judge whether the data set is a real missing data set
 #' @param example is to judge whether the data set is a simulation example.
-#' 
-#' @return XMMLPCA, MSEMMLPCA, MAEMMLPCA, REMMLPCA, GCVMMLPCA,timeMMLPCA
-#' @export 
 #'
-#' @examples 
-#'  library(MASS)   
+#' @return
+#' \item{XMMLPCA}{is the estimator on the MMLPCA method}
+#' \item{MSEMMLPCA}{is the MSE value of the MMLPCA method}
+#' \item{MAEMMLPCA}{is the MAE value of the MMLPCA method}
+#' \item{REMMLPCA}{is the RE value of the MMLPCA method}
+#' \item{GCVMMLPCA}{is the GCV value of the MMLPCA method}
+#' \item{timeMMLPCA}{is the time cost of the MMLPCA method}
+#' @export
+#' @importFrom stats cor
+#' @examples
+#'  library(MASS)
 #'  n=100;p=10;per=0.1
 #'  X0=data=matrix(mvrnorm(n*p,0,1),n,p)
 #'  m=round(per*n*p,digits=0)
 #'  mr=sample(1:(n*p),m,replace=FALSE)
 #'  X0[mr]=NA;data0=X0
 #'  MMLPCA(data=data,data0=data0,real=FALSE,example=FALSE)
-
-##the MMLPCA method 
+##the MMLPCA method
 MMLPCA=function(data=0,data0,real=TRUE,example=FALSE)
 #It defaults that the data set is a real data set
 {#1
@@ -36,7 +41,7 @@ MMLPCA=function(data=0,data0,real=TRUE,example=FALSE)
       cm0=colMeans(X0,na.rm=T)
       ina=as.matrix(mr%%n)
       jna=as.matrix(floor((mr+n-1)/n))
-      data0[is.na(data0)]=cm0[ceiling(which(is.na(X0))/n)]	
+      data0[is.na(data0)]=cm0[ceiling(which(is.na(X0))/n)]
       X=as.matrix(data0)
       Z=scale(X,center=TRUE,scale=FALSE)
       tol=1e-5;nb=10;niter=0;d=1;SS=1
@@ -58,7 +63,7 @@ MMLPCA=function(data=0,data0,real=TRUE,example=FALSE)
             Qi=matrix(0,p,p)
             for( u in 1:piob){#7
               Qi[job[u],u]=1
-            }#7  
+            }#7
             for( v in 1:pina){#7
               Qi[jna[v],v+piob]=1
             }#7
@@ -116,7 +121,7 @@ MMLPCA=function(data=0,data0,real=TRUE,example=FALSE)
         S2=sum((data0[mr]-Zcol[mr])^2)
         SS=abs(S2-S1)/S2
       }#4
-      XMMLPCA=Xnew=Znew+matrix(rep(1,n*p),ncol=p)%*%diag(cm0)     
+      XMMLPCA=Xnew=Znew+matrix(rep(1,n*p),ncol=p)%*%diag(cm0)
       for (j in 1:p){
          Mj=is.na(X0[,j])
          iob=which(Mj==FALSE)
@@ -134,14 +139,14 @@ MMLPCA=function(data=0,data0,real=TRUE,example=FALSE)
     MSEMMLPCA= MAEMMLPCA= REMMLPCA='NULL'
   }else{#2
     MSEMMLPCA=(1/m)*t(Xnew[mr]-data[mr])%*%(Xnew[mr]-data[mr])
-    MAEMMLPCA=(1/m)*sum(abs(data[mr]-Xnew[mr]))  
+    MAEMMLPCA=(1/m)*sum(abs(data[mr]-Xnew[mr]))
     REMMLPCA=(sum(abs(data[mr]-Xnew[mr])))/(sum(data[mr]))
   }#2
   lambdaMMLPCA=svd(cor(XMMLPCA))$d
   lMMLPCA=lambdaMMLPCA/sum(lambdaMMLPCA);J=rep(lMMLPCA,times=p);dim(J)=c(p,p)
   upper.tri(J,diag=T);J[lower.tri(J)]=0;dim(J)=c(p,p)
   etaMMLPCA=matrix(colSums(J),nrow = 1,ncol = p,byrow = FALSE)
-  wwMMLPCA=which(etaMMLPCA>=etatol);kMMLPCA=wwMMLPCA[1] 
+  wwMMLPCA=which(etaMMLPCA>=etatol);kMMLPCA=wwMMLPCA[1]
   lambdaMMLPCApk=lambdaMMLPCA[(kMMLPCA+1):p]
   GCVMMLPCA=sum(lambdaMMLPCApk)*p/(p-kMMLPCA)^2
   return(list(XMMLPCA=XMMLPCA,MSEMMLPCA=MSEMMLPCA,MAEMMLPCA=MAEMMLPCA,REMMLPCA=REMMLPCA,GCVMMLPCA=GCVMMLPCA,timeMMLPCA=time))

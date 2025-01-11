@@ -4,12 +4,19 @@
 #' @param data0 is the missing data set
 #' @param real is to judge whether the data set is a real missing data set
 #' @param example is to judge whether the data set is a simulation example.
-#' 
-#' @return XMNIPALS, MSEMNIPALS, MAEMNIPALS, REMNIPALS, GCVMNIPALS,timeMNIPALS
-#' @export
 #'
-#' @examples 
-#'  library(MASS)   
+#' @return
+#' \item{XMNIPALS}{is the estimator on the MNIPALS method}
+#' \item{MSEMNIPALS}{is the MSE value of the MNIPALS method}
+#' \item{MAEMNIPALS}{is the MAE value of the MNIPALS method}
+#' \item{REMNIPALS}{is the RE value of the MNIPALS method}
+#' \item{GCVMNIPALS}{is the GCV value of the MNIPALS method}
+#' \item{timeMNIPALS}{is the time cost of the MNIPALS method}
+#' @export
+#' @importFrom stats cor
+#' @importFrom MASS ginv
+#' @examples
+#'  library(MASS)
 #'  n=100;p=10;per=0.1
 #'  X0=data=matrix(mvrnorm(n*p,0,1),n,p)
 #'  m=round(per*n*p,digits=0)
@@ -17,7 +24,7 @@
 #'  X0[mr]=NA;data0=X0
 #'  MNIPALS(data=data,data0=data0,real=FALSE,example=FALSE)
 
-#the MNIPALS method 
+#the MNIPALS method
 MNIPALS=function(data=0,data0,real=TRUE,example=FALSE)
 #It defaults that the data set is a real data set
 {#1
@@ -36,7 +43,7 @@ MNIPALS=function(data=0,data0,real=TRUE,example=FALSE)
       cm0=colMeans(X0,na.rm=T)
       ina=as.matrix(mr%%n)
       jna=as.matrix(floor((mr+n-1)/n))
-      data0[is.na(data0)]=cm0[ceiling(which(is.na(X0))/n)]	
+      data0[is.na(data0)]=cm0[ceiling(which(is.na(X0))/n)]
       X=as.matrix(data0)
       Z0=Z=scale(X,center=TRUE,scale=FALSE)
       tol=1e-5;nb=100;niter=0;d=1
@@ -79,7 +86,7 @@ MNIPALS=function(data=0,data0,real=TRUE,example=FALSE)
           pina=0
         }#5
       }#4
-      XMNIPALS=Xnew=Z+matrix(1,n,p)%*%diag(cm0)     
+      XMNIPALS=Xnew=Z+matrix(1,n,p)%*%diag(cm0)
       for (j in 1:p){
          Mj=is.na(X0[,j])
          iob=which(Mj==FALSE)
@@ -97,14 +104,14 @@ MNIPALS=function(data=0,data0,real=TRUE,example=FALSE)
     MSEMNIPALS= MAEMNIPALS= REMNIPALS='NULL'
   }else{#2
     MSEMNIPALS=(1/m)*t(Xnew[mr]-data[mr])%*%(Xnew[mr]-data[mr])
-    MAEMNIPALS=(1/m)*sum(abs(Xnew[mr]-data[mr]))	
+    MAEMNIPALS=(1/m)*sum(abs(Xnew[mr]-data[mr]))
     REMNIPALS=(sum(abs(data[mr]-Xnew[mr])))/(sum(data[mr]))
   }#2
   lambdaMNIPALS=svd(cor(XMNIPALS))$d
   lMNIPALS=lambdaMNIPALS/sum(lambdaMNIPALS);J=rep(lMNIPALS,times=p);dim(J)=c(p,p)
   upper.tri(J,diag=T);J[lower.tri(J)]=0;J;dim(J)=c(p,p)
   etaMNIPALS=matrix(colSums(J),nrow = 1,ncol = p,byrow = FALSE)
-  wwMNIPALS=which(etaMNIPALS>=etatol);kMNIPALS=wwMNIPALS[1] 
+  wwMNIPALS=which(etaMNIPALS>=etatol);kMNIPALS=wwMNIPALS[1]
   lambdaMNIPALSpk=lambdaMNIPALS[(kMNIPALS+1):p]
   GCVMNIPALS=sum(lambdaMNIPALSpk)*p/(p-kMNIPALS)^2
   return(list(XMNIPALS=XMNIPALS,MSEMNIPALS=MSEMNIPALS,MAEMNIPALS=MAEMNIPALS,REMNIPALS=REMNIPALS,GCVMNIPALS=GCVMNIPALS,timeMNIPALS=time))

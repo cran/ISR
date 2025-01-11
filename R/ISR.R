@@ -1,15 +1,22 @@
-#' Caculate the estimator on the ISR method
+#' Caculate the estimator with the ISR method
 #'
 #' @param data is the orignal data set
 #' @param data0 is the missing data set
 #' @param real is to judge whether the data set is a real missing data set
 #' @param example is to judge whether the data set is a simulation example.
-#' 
-#' @return XISR, MSEISR, MAEISR, REISR, GCVISR,timeISR
-#' @export
 #'
-#' @examples 
-#'  library(MASS)   
+#' @return
+#' \item{XISR}{is the estimator on the ISR method}
+#' \item{MSEISR}{is the MSE value of the ISR method}
+#' \item{MAEISR}{is the MAE value of the ISR method}
+#' \item{REISR}{is the RE value of the ISR method}
+#' \item{GCVISR}{is the GCV value of the ISR method}
+#' \item{timeISR}{is the time cost of the ISR method}
+#' @export
+#' @importFrom stats cor
+#' @importFrom MASS ginv
+#' @examples
+#'  library(MASS)
 #'  n=100;p=10;per=0.1
 #'  X0=data=matrix(mvrnorm(n*p,0,1),n,p)
 #'  m=round(per*n*p,digits=0)
@@ -17,7 +24,7 @@
 #'  X0[mr]=NA;data0=X0
 #'  ISR(data=data,data0=data0,real=FALSE,example=FALSE)
 
-#the ISR method 
+#the ISR method
 ISR=function(data=0,data0,real=TRUE,example=FALSE)
 #It defaults that the data set is a real data set
 {#1
@@ -36,7 +43,7 @@ ISR=function(data=0,data0,real=TRUE,example=FALSE)
       cm0=colMeans(X0,na.rm=T)
       ina=as.matrix(mr%%n)
       jna=as.matrix(floor((mr+n-1)/n))
-      data0[is.na(data0)]=cm0[ceiling(which(is.na(X0))/n)]	
+      data0[is.na(data0)]=cm0[ceiling(which(is.na(X0))/n)]
       X=as.matrix(data0)
       Z=scale(X,center=TRUE,scale=FALSE)
       niter=0;d=1;tol=1e-5;nb=10
@@ -74,7 +81,7 @@ ISR=function(data=0,data0,real=TRUE,example=FALSE)
             Aina=matrix(AQi[piob+(1:pina),],pina,k,byrow=FALSE)
             Ti=Ziob%*%Aiob;Ti
             betaihat=ginv(t(Ti)%*%Ti)%*%t(Ti)%*%Zina;betaihat
-            zinahat=ziob%*%Aiob%*%betaihat;zinahat	
+            zinahat=ziob%*%Aiob%*%betaihat;zinahat
             ZQi[i,piob+(1:pina)]=zinahat
             Z=Zi=ZQi%*%t(Qi)
             pina=0
@@ -83,7 +90,7 @@ ISR=function(data=0,data0,real=TRUE,example=FALSE)
         ZISR=Znew=Z
         d=sqrt(sum(diag((t(Zold-Znew)%*%(Zold-Znew)))))
       }#4
-      XISR=Xnew=Znew+matrix(rep(1,n*p),ncol=p)%*%diag(cm0) 
+      XISR=Xnew=Znew+matrix(rep(1,n*p),ncol=p)%*%diag(cm0)
       for (j in 1:p){
          Mj=is.na(X0[,j])
          iob=which(Mj==FALSE)
@@ -101,14 +108,14 @@ ISR=function(data=0,data0,real=TRUE,example=FALSE)
     MSEISR= MAEISR= REISR='NULL'
   }else{#2
     MSEISR=(1/m)*t(Xnew[mr]-data[mr])%*%(Xnew[mr]-data[mr])
-    MAEISR=(1/m)*sum(abs(Xnew[mr]-data[mr]))	
+    MAEISR=(1/m)*sum(abs(Xnew[mr]-data[mr]))
     REISR=(sum(abs(data[mr]-Xnew[mr])))/(sum(data[mr]))
   }#2
   lambdaISR=svd(cor(XISR))$d;lambdaISR
   lISR=lambdaISR/sum(lambdaISR);J=rep(lISR,times=p);dim(J)=c(p,p)
   upper.tri(J,diag=T);J[lower.tri(J)]=0;J;dim(J)=c(p,p)
   etaISR=matrix(colSums(J),nrow = 1,ncol = p,byrow = FALSE)
-  wwISR=which(etaISR>=etatol);kISR=wwISR[1] 
+  wwISR=which(etaISR>=etatol);kISR=wwISR[1]
   lambdaISRpk=lambdaISR[(kISR+1):p]
   GCVISR=sum(lambdaISRpk)*p/(p-kISR)^2
   return(list(XISR=XISR,MSEISR=MSEISR,MAEISR=MAEISR,REISR=REISR,GCVISR=GCVISR,timeISR=time))

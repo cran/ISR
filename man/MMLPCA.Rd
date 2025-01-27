@@ -4,7 +4,7 @@
 \alias{MMLPCA}
 \title{Caculate the estimator on the MMLPCA method}
 \usage{
-MMLPCA(data = 0, data0, real = TRUE, example = FALSE)
+MMLPCA(data, data0, real = TRUE, example = FALSE)
 }
 \arguments{
 \item{data}{is the orignal data set}

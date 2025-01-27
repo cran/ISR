@@ -4,7 +4,7 @@
 \alias{DISR}
 \title{Caculate the estimator with the DISR method}
 \usage{
-DISR(data = 0, data0, real = TRUE, example = FALSE, D)
+DISR(data, data0, real = TRUE, example = FALSE, D)
 }
 \arguments{
 \item{data}{is the orignal data set}

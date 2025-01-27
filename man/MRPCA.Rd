@@ -4,7 +4,7 @@
 \alias{MRPCA}
 \title{Caculate the estimator on the MRPCA method}
 \usage{
-MRPCA(data = 0, data0, real = TRUE, example = FALSE)
+MRPCA(data, data0, real = TRUE, example = FALSE)
 }
 \arguments{
 \item{data}{is the orignal data set}

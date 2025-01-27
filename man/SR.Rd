@@ -4,7 +4,7 @@
 \alias{SR}
 \title{Caculate the estimator on the SR method}
 \usage{
-SR(data = 0, data0, real = TRUE, example = FALSE)
+SR(data, data0, real = TRUE, example = FALSE)
 }
 \arguments{
 \item{data}{is the orignal data set}

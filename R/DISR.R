@@ -25,7 +25,7 @@
 #'  DISR(data=data,data0=data0,real=FALSE,example=FALSE,D=2)
 
 #the DISR method
-DISR=function(data=0,data0,real=TRUE,example=FALSE,D)
+DISR=function(data,data0,real=TRUE,example=FALSE,D)
 #It defaults that the data set is a real data set
 {#1
   if (real||example){#2

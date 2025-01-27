@@ -4,7 +4,7 @@
 \alias{ISR}
 \title{Caculate the estimator with the ISR method}
 \usage{
-ISR(data = 0, data0, real = TRUE, example = FALSE)
+ISR(data, data0, real = TRUE, example = FALSE)
 }
 \arguments{
 \item{data}{is the orignal data set}

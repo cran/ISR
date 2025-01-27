@@ -1,7 +1,7 @@
 Package: ISR
 Title: The Iterated Score Regression-Based Estimation
 Date: 2024-12-23
-Version: 2025-01-10
+Version: 2025.01.14
 Authors@R: c(
     person("Guangbao", "Guo",role = c("aut", "cre"),
     email = "ggb11111111@163.com",
@@ -18,10 +18,10 @@ Suggests: testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Depends: R (>= 3.5.0)
 NeedsCompilation: yes
-Packaged: 2025-01-10 14:24:03 UTC; ASUS
+Packaged: 2025-01-14 13:21:04 UTC; ASUS
 Author: Guangbao Guo [aut, cre] (<https://orcid.org/0000-0002-4115-6218>),
   Haoyue Song [aut],
   Lixing Zhu [aut]
 Maintainer: Guangbao Guo <ggb11111111@163.com>
 Repository: CRAN
-Date/Publication: 2025-01-11 09:40:05 UTC
+Date/Publication: 2025-01-27 09:40:02 UTC

@@ -4,7 +4,7 @@
 \alias{Mean}
 \title{Caculate the estimator on the Mean method}
 \usage{
-Mean(data = 0, data0, real = TRUE, example = FALSE)
+Mean(data, data0, real = TRUE, example = FALSE)
 }
 \arguments{
 \item{data}{is the orignal data set}

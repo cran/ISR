@@ -23,7 +23,7 @@
 #'  X0[mr]=NA;data0=X0
 #'  SR(data=data,data0=data0,real=FALSE,example=FALSE)
 #the SR method
-SR=function(data=0,data0,real=TRUE,example=FALSE)
+SR=function(data,data0,real=TRUE,example=FALSE)
 #It defaults that the data set is a real data set
 {#1
   if (real||example){#2
